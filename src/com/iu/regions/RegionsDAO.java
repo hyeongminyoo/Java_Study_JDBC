@@ -11,10 +11,6 @@ import com.iu.util.DBConnector;
 public class RegionsDAO {
 
 	
-	
-	
-	
-	
 	//2. Regions에서 하나의 결과(row)
 	public ArrayList<RegionsDTO> getDetail(int region_id) throws Exception {
 		
