@@ -3,13 +3,22 @@ package com.iu.regions;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.iu.util.DBConnector;
 
 public class RegionsDAO {
 
+	
+	
+	
+	
+	
 	//2. Regions에서 하나의 결과(row)
-	public void getDetail(int region_id) throws Exception {
+	public ArrayList<RegionsDTO> getDetail(int region_id) throws Exception {
+		
+		ArrayList<RegionsDTO> ar = new ArrayList();
 		
 		//1.DB 연결
 		Connection con = DBConnector.getConnection();
@@ -27,13 +36,26 @@ public class RegionsDAO {
 		//5. 최종 전송 후 결과 처리
 		ResultSet rs = st.executeQuery();
 		
-		while(rs.next()) {}
+		
+		while(rs.next()) {
+			RegionsDTO rDTO = new RegionsDTO();
+			rDTO.setRegion_id(rs.getInt("REGION_ID")); 
+			rDTO.setRegion_name(rs.getString("REGION_NAME"));
+			ar.add(rDTO);
+		}
+		
+		
+		DBConnector.disConnect(rs, st, con);
+		return ar;
 		
 		
 	}
 	
 	//1.Regions 의 모든 데이터 가져오기
-	public void getList() throws Exception {
+	public ArrayList<RegionsDTO> getList() throws Exception {
+		
+		ArrayList<RegionsDTO> ar = new ArrayList();
+		
 		//1.DB 연결
 		Connection con = DBConnector.getConnection();
 		
@@ -51,11 +73,19 @@ public class RegionsDAO {
 		
 		//
 		while(rs.next()) {
-			int id = rs.getInt("REGION_ID");
-			String name = rs.getString("REGION_NAME");
-			System.out.println(id);
-			System.out.println(name);
+			RegionsDTO rDTO = new RegionsDTO();
+			rDTO.setRegion_id(rs.getInt("REGION_ID"));
+			rDTO.setRegion_name(rs.getString("REGION_NAME"));
+			ar.add(rDTO);
 		}
+		
+		
+		DBConnector.disConnect(rs, st, con);
+		
+		return ar;
+		
 	}
+	
+	
 	
 }
