@@ -10,10 +10,10 @@ public class RegionsView {
 	
 	public void view(ArrayList<RegionsDTO> ar) throws Exception {
 		
-		System.out.println("Region_ID\t Region_name");
+		System.out.println("Region_ID \t Region_name");
 		System.out.println("--------------------------------");
 		for(RegionsDTO rDTO : ar) {
-			System.out.println(rDTO.getRegion_name()+"\t "+rDTO.getRegion_id());
+			System.out.println(rDTO.getRegion_id()+"\t "+rDTO.getRegion_name());
 		}
 		System.out.println("--------------------------------");
 	}

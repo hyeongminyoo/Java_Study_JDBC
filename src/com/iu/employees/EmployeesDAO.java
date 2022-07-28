@@ -8,7 +8,37 @@ import java.util.ArrayList;
 import com.iu.util.DBConnector;
 
 public class EmployeesDAO {
-
+	
+	//getSalaryInfo
+	public void getSalaryInfo() throws Exception {
+		//1.DB 연결
+		Connection con = DBConnector.getConnection();
+		//2.쿼리문 작성
+		String sql = "SELECT SUM(SALARY), AVG(SALARY), MAX(SALARY) AS MAX FROM EMPLOYEES";
+		//3.미리 전송
+		PreparedStatement st = con.prepareStatement(sql);
+		//4. ? 있을경우 값 세팅
+		
+		//5. 최종 전송 및 결과처리
+		ResultSet rs = st.executeQuery();
+		ArrayList<Object> ar = new ArrayList<>();
+		if(rs.next()) {
+			int sum = rs.getInt("SUM(SALARY)");
+			double avg = rs.getDouble(2);
+			int max = rs.getInt("MAX");
+			System.out.println(sum);
+			System.out.println(avg);
+			System.out.println(max);
+		}
+		
+		
+		//6. 자원해제
+		DBConnector.disConnect(rs, st, con);
+	}
+	
+	
+	
+	
 	//1.Employees 의 모든 데이터 가져오기
 	public ArrayList<EmployeesDTO> getList() throws Exception {
 		
@@ -43,9 +73,7 @@ public class EmployeesDAO {
 			
 		}
 		
-		rs.close();
-		st.close();
-		con.close();
+		DBConnector.disConnect(rs, st, con);
 		
 		return ar;
 		
@@ -84,9 +112,7 @@ public class EmployeesDAO {
 			employeesDTO.setDepartment_id(rs.getInt("DEPARTMENT_ID"));
 		}
 		
-		rs.close();
-		st.close();
-		con.close();
+		DBConnector.disConnect(rs, st, con);
 		
 		return employeesDTO;
 	}
